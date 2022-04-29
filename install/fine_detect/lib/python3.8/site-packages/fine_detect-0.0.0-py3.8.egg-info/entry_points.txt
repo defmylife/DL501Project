@@ -1,0 +1,3 @@
+[console_scripts]
+detect_talker = fine_detect.fine_dect:main
+

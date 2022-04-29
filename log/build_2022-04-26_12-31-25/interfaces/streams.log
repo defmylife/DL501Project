@@ -1,0 +1,46 @@
+[0.246s] Invoking command in '/home/amejiyo/GitHub/DL501Project/build/interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/amejiyo/ros2_ws/install/py_pubsub:/home/amejiyo/ros2_ws/install/opencv_tests:/home/amejiyo/ros2_ws/install/detection:/home/amejiyo/yolobot/install/yolobot_recognition:/opt/ros/foxy /usr/bin/cmake /home/amejiyo/GitHub/DL501Project/src/interfaces -DCMAKE_INSTALL_PREFIX=/home/amejiyo/GitHub/DL501Project/install/interfaces
+[0.388s] -- The C compiler identification is GNU 8.4.0
+[0.485s] -- The CXX compiler identification is GNU 8.4.0
+[0.495s] -- Check for working C compiler: /usr/bin/cc
+[0.574s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.577s] -- Detecting C compiler ABI info
+[0.650s] -- Detecting C compiler ABI info - done
+[0.665s] -- Detecting C compile features
+[0.665s] -- Detecting C compile features - done
+[0.669s] -- Check for working CXX compiler: /usr/bin/c++
+[0.754s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[0.756s] -- Detecting CXX compiler ABI info
+[0.849s] -- Detecting CXX compiler ABI info - done
+[0.859s] -- Detecting CXX compile features
+[0.859s] -- Detecting CXX compile features - done
+[0.865s] -- Found ament_cmake: 0.9.9 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.902s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[0.902s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.130s] -- Found ament_lint_auto: 0.9.6 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[1.262s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.265s] -- Added test 'lint_cmake' to check CMake code style
+[1.266s] -- Added test 'xmllint' to check XML markup files
+[1.269s] -- Configuring done
+[1.270s] -- Generating done
+[1.271s] -- Build files have been written to: /home/amejiyo/GitHub/DL501Project/build/interfaces
+[1.274s] Invoked command in '/home/amejiyo/GitHub/DL501Project/build/interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/amejiyo/ros2_ws/install/py_pubsub:/home/amejiyo/ros2_ws/install/opencv_tests:/home/amejiyo/ros2_ws/install/detection:/home/amejiyo/yolobot/install/yolobot_recognition:/opt/ros/foxy /usr/bin/cmake /home/amejiyo/GitHub/DL501Project/src/interfaces -DCMAKE_INSTALL_PREFIX=/home/amejiyo/GitHub/DL501Project/install/interfaces
+[1.280s] Invoking command in '/home/amejiyo/GitHub/DL501Project/build/interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/amejiyo/ros2_ws/install/py_pubsub:/home/amejiyo/ros2_ws/install/opencv_tests:/home/amejiyo/ros2_ws/install/detection:/home/amejiyo/yolobot/install/yolobot_recognition:/opt/ros/foxy /usr/bin/cmake --build /home/amejiyo/GitHub/DL501Project/build/interfaces -- -j16 -l16
+[1.317s] Invoked command in '/home/amejiyo/GitHub/DL501Project/build/interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/amejiyo/ros2_ws/install/py_pubsub:/home/amejiyo/ros2_ws/install/opencv_tests:/home/amejiyo/ros2_ws/install/detection:/home/amejiyo/yolobot/install/yolobot_recognition:/opt/ros/foxy /usr/bin/cmake --build /home/amejiyo/GitHub/DL501Project/build/interfaces -- -j16 -l16
+[1.353s] Invoking command in '/home/amejiyo/GitHub/DL501Project/build/interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/amejiyo/ros2_ws/install/py_pubsub:/home/amejiyo/ros2_ws/install/opencv_tests:/home/amejiyo/ros2_ws/install/detection:/home/amejiyo/yolobot/install/yolobot_recognition:/opt/ros/foxy /usr/bin/cmake --install /home/amejiyo/GitHub/DL501Project/build/interfaces
+[1.365s] -- Install configuration: ""
+[1.365s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/ament_index/resource_index/package_run_dependencies/interfaces
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/ament_index/resource_index/parent_prefix_path/interfaces
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/environment/ament_prefix_path.sh
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/environment/ament_prefix_path.dsv
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/environment/path.sh
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/environment/path.dsv
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/local_setup.bash
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/local_setup.sh
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/local_setup.zsh
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/local_setup.dsv
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/package.dsv
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/ament_index/resource_index/packages/interfaces
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/cmake/interfacesConfig.cmake
+[1.366s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/cmake/interfacesConfig-version.cmake
+[1.367s] -- Installing: /home/amejiyo/GitHub/DL501Project/install/interfaces/share/interfaces/package.xml
+[1.368s] Invoked command in '/home/amejiyo/GitHub/DL501Project/build/interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/amejiyo/ros2_ws/install/py_pubsub:/home/amejiyo/ros2_ws/install/opencv_tests:/home/amejiyo/ros2_ws/install/detection:/home/amejiyo/yolobot/install/yolobot_recognition:/opt/ros/foxy /usr/bin/cmake --install /home/amejiyo/GitHub/DL501Project/build/interfaces

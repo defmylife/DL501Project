@@ -1,0 +1,36 @@
+[0.730s] Invoking command in '/home/amejiyo/GitHub/DL501Project/src/fine_detect': PYTHONPATH=/home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/fine_detect build --build-base /home/amejiyo/GitHub/DL501Project/build/fine_detect/build install --prefix /home/amejiyo/GitHub/DL501Project/install/fine_detect --record /home/amejiyo/GitHub/DL501Project/build/fine_detect/install.log --single-version-externally-managed
+[0.935s] running egg_info
+[0.936s] creating ../../build/fine_detect/fine_detect.egg-info
+[0.936s] writing ../../build/fine_detect/fine_detect.egg-info/PKG-INFO
+[0.936s] writing dependency_links to ../../build/fine_detect/fine_detect.egg-info/dependency_links.txt
+[0.936s] writing entry points to ../../build/fine_detect/fine_detect.egg-info/entry_points.txt
+[0.936s] writing requirements to ../../build/fine_detect/fine_detect.egg-info/requires.txt
+[0.936s] writing top-level names to ../../build/fine_detect/fine_detect.egg-info/top_level.txt
+[0.938s] writing manifest file '../../build/fine_detect/fine_detect.egg-info/SOURCES.txt'
+[0.966s] reading manifest file '../../build/fine_detect/fine_detect.egg-info/SOURCES.txt'
+[0.967s] writing manifest file '../../build/fine_detect/fine_detect.egg-info/SOURCES.txt'
+[0.968s] running build
+[0.968s] running build_py
+[0.969s] creating /home/amejiyo/GitHub/DL501Project/build/fine_detect/build
+[0.969s] creating /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib
+[0.969s] creating /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect
+[0.969s] copying fine_detect/fine_dect.py -> /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect
+[0.969s] copying fine_detect/__init__.py -> /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect
+[0.970s] running install
+[0.970s] running install_lib
+[0.970s] creating /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect
+[0.970s] copying /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect/fine_dect.py -> /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect
+[0.971s] copying /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect/__init__.py -> /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect
+[0.971s] byte-compiling /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect/fine_dect.py to fine_dect.cpython-38.pyc
+[0.971s] byte-compiling /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect/__init__.py to __init__.cpython-38.pyc
+[0.972s] running install_data
+[0.972s] creating /home/amejiyo/GitHub/DL501Project/install/fine_detect/share/ament_index
+[0.972s] creating /home/amejiyo/GitHub/DL501Project/install/fine_detect/share/ament_index/resource_index
+[0.973s] creating /home/amejiyo/GitHub/DL501Project/install/fine_detect/share/ament_index/resource_index/packages
+[0.973s] copying resource/fine_detect -> /home/amejiyo/GitHub/DL501Project/install/fine_detect/share/ament_index/resource_index/packages
+[0.973s] copying package.xml -> /home/amejiyo/GitHub/DL501Project/install/fine_detect/share/fine_detect
+[0.973s] running install_egg_info
+[0.973s] Copying ../../build/fine_detect/fine_detect.egg-info to /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect-0.0.0-py3.8.egg-info
+[0.973s] running install_scripts
+[0.988s] writing list of installed files to '/home/amejiyo/GitHub/DL501Project/build/fine_detect/install.log'
+[1.017s] Invoked command in '/home/amejiyo/GitHub/DL501Project/src/fine_detect' returned '0': PYTHONPATH=/home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/fine_detect build --build-base /home/amejiyo/GitHub/DL501Project/build/fine_detect/build install --prefix /home/amejiyo/GitHub/DL501Project/install/fine_detect --record /home/amejiyo/GitHub/DL501Project/build/fine_detect/install.log --single-version-externally-managed

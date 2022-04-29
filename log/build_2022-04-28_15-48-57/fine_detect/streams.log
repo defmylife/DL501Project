@@ -1,0 +1,23 @@
+[0.718s] Invoking command in '/home/amejiyo/GitHub/DL501Project/src/fine_detect': PYTHONPATH=/home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/fine_detect build --build-base /home/amejiyo/GitHub/DL501Project/build/fine_detect/build install --prefix /home/amejiyo/GitHub/DL501Project/install/fine_detect --record /home/amejiyo/GitHub/DL501Project/build/fine_detect/install.log --single-version-externally-managed
+[0.925s] running egg_info
+[0.926s] writing ../../build/fine_detect/fine_detect.egg-info/PKG-INFO
+[0.926s] writing dependency_links to ../../build/fine_detect/fine_detect.egg-info/dependency_links.txt
+[0.926s] writing entry points to ../../build/fine_detect/fine_detect.egg-info/entry_points.txt
+[0.926s] writing requirements to ../../build/fine_detect/fine_detect.egg-info/requires.txt
+[0.927s] writing top-level names to ../../build/fine_detect/fine_detect.egg-info/top_level.txt
+[0.955s] reading manifest file '../../build/fine_detect/fine_detect.egg-info/SOURCES.txt'
+[0.956s] writing manifest file '../../build/fine_detect/fine_detect.egg-info/SOURCES.txt'
+[0.956s] running build
+[0.956s] running build_py
+[0.956s] copying fine_detect/fine_dect.py -> /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect
+[0.957s] running install
+[0.957s] running install_lib
+[0.958s] copying /home/amejiyo/GitHub/DL501Project/build/fine_detect/build/lib/fine_detect/fine_dect.py -> /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect
+[0.958s] byte-compiling /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect/fine_dect.py to fine_dect.cpython-38.pyc
+[0.960s] running install_data
+[0.960s] running install_egg_info
+[0.962s] removing '/home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect-0.0.0-py3.8.egg-info' (and everything under it)
+[0.962s] Copying ../../build/fine_detect/fine_detect.egg-info to /home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages/fine_detect-0.0.0-py3.8.egg-info
+[0.963s] running install_scripts
+[0.977s] writing list of installed files to '/home/amejiyo/GitHub/DL501Project/build/fine_detect/install.log'
+[1.005s] Invoked command in '/home/amejiyo/GitHub/DL501Project/src/fine_detect' returned '0': PYTHONPATH=/home/amejiyo/GitHub/DL501Project/install/fine_detect/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/fine_detect build --build-base /home/amejiyo/GitHub/DL501Project/build/fine_detect/build install --prefix /home/amejiyo/GitHub/DL501Project/install/fine_detect --record /home/amejiyo/GitHub/DL501Project/build/fine_detect/install.log --single-version-externally-managed

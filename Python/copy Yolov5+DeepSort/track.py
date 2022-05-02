@@ -38,11 +38,16 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 
-def detect(opt):
+def detect(opt, _source=None, _yolo_model=None, _save_vid=None):
     out, source, yolo_model, deep_sort_model, show_vid, save_vid, save_txt, imgsz, evaluate, half, \
         project, exist_ok, update, save_crop = \
         opt.output, opt.source, opt.yolo_model, opt.deep_sort_model, opt.show_vid, opt.save_vid, \
         opt.save_txt, opt.imgsz, opt.evaluate, opt.half, opt.project, opt.exist_ok, opt.update, opt.save_crop
+    
+    if _source!=None: source=_source
+    if _yolo_model!=None: yolo_model=_yolo_model
+    if _save_vid!=None: save_vid=_save_vid
+    
     webcam = source == '0' or source.startswith(
         'rtsp') or source.startswith('http') or source.endswith('.txt')
 
@@ -116,6 +121,9 @@ def detect(opt):
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
+    # ======================Sea's test=========================
+    print("\n>> ALL NAMES:", names, "\n")
+    # ==========================end============================
 
     # Run tracking
     model.warmup(imgsz=(1 if pt else nr_sources, 3, *imgsz))  # warmup
@@ -146,7 +154,7 @@ def detect(opt):
             if webcam:  # nr_sources >= 1
                 p, im0, _ = path[i], im0s[i].copy(), dataset.count
                 p = Path(p)  # to Path
-                s += f'{i}: '
+                # s += f'{i}: ' # uncomment to show the path file while processing
                 txt_file_name = p.name
                 save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             else:
@@ -191,12 +199,13 @@ def detect(opt):
                     for j, (output) in enumerate(outputs[i]):
 
                         bboxes = output[0:4]
-                        id = output[4]
-                        cls = output[5]
-                        conf = output[6]
+                        id = output[4]          # visualized
+                        cls = output[5]         # visualized
+                        conf = output[6]        # visualized
 
                         if save_txt:
                             # to MOT format
+                            # more about MOT format : https://motchallenge.net/instructions/
                             bbox_left = output[0]
                             bbox_top = output[1]
                             bbox_w = output[2] - output[0]
@@ -209,6 +218,9 @@ def detect(opt):
                         if save_vid or save_crop or show_vid:  # Add bbox to image
                             c = int(cls)  # integer class
                             label = f'{id:0.0f} {names[c]} {conf:.2f}'
+                            # ======================Sea's test=========================
+                            print(">> LABEL:", label)
+                            # ==========================end============================
                             annotator.box_label(bboxes, label, color=colors(c, True))
                             if save_crop:
                                 txt_file_name = txt_file_name if (isinstance(path, list) and len(path) > 1) else ''
@@ -253,6 +265,44 @@ def detect(opt):
         strip_optimizer(yolo_model)  # update model (to fix SourceChangeWarning)
 
 
+
+def runTrack():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--yolo_model', nargs='+', type=str, default='yolov5m.pt', help='model.pt path(s)')
+    parser.add_argument('--deep_sort_model', type=str, default='osnet_x0_25')
+    parser.add_argument('--source', type=str, default='0', help='source')  # file/folder, 0 for webcam
+    parser.add_argument('--output', type=str, default='inference/output', help='output folder')  # output folder
+    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
+    parser.add_argument('--conf-thres', type=float, default=0.5, help='object confidence threshold')
+    parser.add_argument('--iou-thres', type=float, default=0.5, help='IOU threshold for NMS')
+    parser.add_argument('--fourcc', type=str, default='mp4v', help='output video codec (verify ffmpeg support)')
+    parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    parser.add_argument('--show-vid', action='store_true', help='display tracking video results')
+    parser.add_argument('--save-vid', action='store_true', help='save video tracking results')
+    parser.add_argument('--save-txt', action='store_true', help='save MOT compliant results to *.txt')
+    # class 0 is person, 1 is bycicle, 2 is car... 79 is oven
+    parser.add_argument('--classes', nargs='+', type=int, help='filter by class: --class 0, or --class 16 17')
+    parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
+    parser.add_argument('--augment', action='store_true', help='augmented inference')
+    parser.add_argument('--update', action='store_true', help='update all models')
+    parser.add_argument('--evaluate', action='store_true', help='augmented inference')
+    parser.add_argument("--config_deepsort", type=str, default="deep_sort/configs/deep_sort.yaml")
+    parser.add_argument("--half", action="store_true", help="use FP16 half-precision inference")
+    parser.add_argument('--visualize', action='store_true', help='visualize features')
+    parser.add_argument('--max-det', type=int, default=1000, help='maximum detection per image')
+    parser.add_argument('--save-crop', action='store_true', help='save cropped prediction boxes')
+    parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
+    parser.add_argument('--project', default=ROOT / 'runs/track', help='save results to project/name')
+    parser.add_argument('--name', default='exp', help='save results to project/name')
+    parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
+    opt = parser.parse_args()
+    opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
+
+    with torch.no_grad():
+        detect(opt, _source='test_fibo1.mp4', _yolo_model='yolov5s.pt', _save_vid=True)
+
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--yolo_model', nargs='+', type=str, default='yolov5m.pt', help='model.pt path(s)')
@@ -286,4 +336,5 @@ if __name__ == '__main__':
     opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
 
     with torch.no_grad():
-        detect(opt)
+        # detect(opt)
+        detect(opt, _source='test_fibo1.mp4', _yolo_model='yolov5s.pt', _save_vid=True)

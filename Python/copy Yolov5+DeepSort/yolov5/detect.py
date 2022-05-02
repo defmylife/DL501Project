@@ -262,14 +262,18 @@ def parse_opt():
     return opt
 
 
-def main(opt):
+def main(opt=None):
     check_requirements(exclude=('tensorboard', 'thop'))
-    # run(**vars(opt))
+    
+    # ======================Sea's test===============================
 
-    # ======================Sea's test=========================
-    run(source='test_fibo1.mp4', view_img=True)
-    # run(source='test_fibo1.mp4', view_img=True, save_crop=True)
-    # ==========================end============================
+    if opt != None: # default
+        run(**vars(opt))
+
+    else: # Sea's edit
+        run(source='test_fibo1.mp4', view_img=True)
+        # run(source='test_fibo1.mp4', view_img=True, save_crop=True)
+    # ==========================end==================================
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5m6')
 model.conf = 0.5
 
+# ------ run model fn
 def dectrun():
     # Convert images to numpy arrays
     cap = cv2.VideoCapture(capture_index)
@@ -23,6 +24,8 @@ def dectrun():
     labels, cord = results.xyxyn[0][:,-1],results.xyxyn[0][:,:-1] #get label and bounding coordinates
     return labels,cord, frame
 
+
+#------- ROS2 node
 class FineDetect(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
@@ -49,6 +52,8 @@ class FineDetect(Node):
                 self.get_logger().info('Publishing: "%s"' % msg.confidence)
         # self.i += 1
 
+
+#-------- Run node
 def main(args=None):
     rclpy.init(args=args)
     minimal_publisher = FineDetect()

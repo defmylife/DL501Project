@@ -94,6 +94,10 @@ def attempt_load(weights, map_location=None, inplace=True, fuse=True):
     model = Ensemble()
     for w in weights if isinstance(weights, list) else [weights]:
         ckpt = torch.load(attempt_download(w), map_location=map_location)  # load
+        # ======================Sea's test=========================
+        # model.load_state_dict(torch.load('yolov5n_state_dict.pt')['model'].state_dict())
+        # model.load_state_dict(torch.load('yolov5n_state_dict.pt').state_dict())
+        # ==========================end============================
         ckpt = (ckpt.get('ema') or ckpt['model']).float()  # FP32 model
         model.append(ckpt.fuse().eval() if fuse else ckpt.eval())  # fused or un-fused model in eval mode
 

@@ -92,6 +92,15 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     # Load model
     device = select_device(device)
     model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data, fp16=half)
+    # ======================Sea's test=========================
+    # model = torch.load('yolov5n_state_dict.pt', map_location='cpu')['model']
+    # model.load_state_dict(torch.load('yolov5n_state_dict.pt')['model'].state_dict())
+    # print(torch.load('yolov5n_state_dict.pt').keys())
+    # model.load_state_dict(torch.load('yolov5n_state_dict.pt'))
+    # model = model.fuse()
+    # model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5n_state_dict.pt')  # local model
+    # model = torch.load('yolov5n.pt', 'custom', path='yolov5n_state_dict.pt')  # local model
+    # ==========================end============================
     stride, names, pt = model.stride, model.names, model.pt
     imgsz = check_img_size(imgsz, s=stride)  # check image size
 
@@ -113,7 +122,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     vid_path, vid_writer = [None] * bs, [None] * bs
 
     # ======================Sea's test=========================
-    print(">> dataset type:", type(dataset))
+    # print(">> dataset type:", type(dataset))
     # ==========================end============================
 
     # Run inference
@@ -135,7 +144,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         visualize = increment_path(save_dir / Path(path).stem, mkdir=True) if visualize else False
         pred = model(im, augment=augment, visualize=visualize)
         # ======================Sea's test=========================
-        print(">> pred type:", type(pred))
+        # print(">> pred type:", type(pred))
         # ==========================end============================
         t3 = time_sync()
         dt[1] += t3 - t2
@@ -170,7 +179,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                 # Print results
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
+                    print(">> n:", int(n), "/ c:", int(c))
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+                    # s += f"{n} {names[0]}{'s' * (n > 1)}, "  # add to string
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
@@ -271,11 +282,15 @@ def main(opt=None):
         run(**vars(opt))
 
     else: # Sea's edit
-        run(source='test_fibo1.mp4', view_img=True)
-        # run(source='test_fibo1.mp4', view_img=True, save_crop=True)
+        # run(source='test_fibo1.mp4', weights='yolov5-blazeface.pt', classes=0)
+        # run(source=0, weights='yolov5-blazeface.pt', classes=0)
+        # run(source=0, weights='yolov5n_state_dict.pt')
+        # run(source='test_fibo1.mp4', weights='yolov5n.pt', view_img=True)
+        run(source='test_trafficb480_trim1.mp4', weights='yolov5s.pt')
     # ==========================end==================================
 
 
 if __name__ == "__main__":
     opt = parse_opt()
-    main(opt)
+    # main(opt)
+    main()

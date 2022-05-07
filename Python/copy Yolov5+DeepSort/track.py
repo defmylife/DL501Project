@@ -38,15 +38,17 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 
-def detect(opt, _source=None, _yolo_model=None, _save_vid=None):
+def detect(opt, _source=None, _yolo_model=None, _classes=None, _save_vid=None, _save_txt=None):
     out, source, yolo_model, deep_sort_model, show_vid, save_vid, save_txt, imgsz, evaluate, half, \
-        project, exist_ok, update, save_crop = \
+        project, exist_ok, update, save_crop, classes = \
         opt.output, opt.source, opt.yolo_model, opt.deep_sort_model, opt.show_vid, opt.save_vid, \
-        opt.save_txt, opt.imgsz, opt.evaluate, opt.half, opt.project, opt.exist_ok, opt.update, opt.save_crop
+        opt.save_txt, opt.imgsz, opt.evaluate, opt.half, opt.project, opt.exist_ok, opt.update, opt.save_crop, opt.classes
     
-    if _source!=None: source=_source
-    if _yolo_model!=None: yolo_model=_yolo_model
-    if _save_vid!=None: save_vid=_save_vid
+    if _source!=None:       source=_source
+    if _yolo_model!=None:   yolo_model=_yolo_model
+    if _classes!=None:      classes=_classes
+    if _save_vid!=None:     save_vid=_save_vid
+    if _save_txt!=None:     save_txt=_save_txt
     
     webcam = source == '0' or source.startswith(
         'rtsp') or source.startswith('http') or source.endswith('.txt')
@@ -145,7 +147,8 @@ def detect(opt, _source=None, _yolo_model=None, _save_vid=None):
         dt[1] += t3 - t2
 
         # Apply NMS
-        pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, opt.classes, opt.agnostic_nms, max_det=opt.max_det)
+        # pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, opt.classes, opt.agnostic_nms, max_det=opt.max_det)
+        pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes, opt.agnostic_nms, max_det=opt.max_det)
         dt[2] += time_sync() - t3
 
         # Process detections
@@ -219,7 +222,7 @@ def detect(opt, _source=None, _yolo_model=None, _save_vid=None):
                             c = int(cls)  # integer class
                             label = f'{id:0.0f} {names[c]} {conf:.2f}'
                             # ======================Sea's test=========================
-                            print(">> LABEL:", label)
+                            # print(">> LABEL:", label)
                             # ==========================end============================
                             annotator.box_label(bboxes, label, color=colors(c, True))
                             if save_crop:
@@ -336,5 +339,11 @@ if __name__ == '__main__':
     opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
 
     with torch.no_grad():
+        # (Default)
         # detect(opt)
-        detect(opt, _source='test_fibo1.mp4', _yolo_model='yolov5s.pt', _save_vid=True)
+        # (Test with VDO Fibo: Success)
+        # detect(opt, _source='test_fibo1.mp4', _yolo_model='yolov5s.pt', _save_vid=True)
+        # (Test with VDO Fibo and Face detection: Failed)
+        # detect(opt, _source='test_fibo1.mp4', _yolo_model='yolov5-blazeface.pt', _save_vid=True) 
+        # (Test with VDO Traffic)
+        detect(opt, _source='test_trafficb480_trim1.mp4', _yolo_model='yolov5s.pt', _save_vid=True, _save_txt=True)

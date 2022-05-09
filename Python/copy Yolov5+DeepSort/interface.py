@@ -1,11 +1,13 @@
-import threading
-# more info :   https://docs.python.org/3/library/threading.html
-#           :   http://marcuscode.com/lang/python/threads
+# import threading
+# # more info :   https://docs.python.org/3/library/threading.html
+# #           :   http://marcuscode.com/lang/python/threads
 
-from track import runTrack
+# from track import runTrack
 
-yoloScript = threading.Thread(target=runTrack)
-# testScript = threading.Thread(target=)
+# yoloScript = threading.Thread(target=runTrack)
+# # testScript = threading.Thread(target=)
 
-yoloScript.start()
-# testScript.start()
+# yoloScript.start()
+# # testScript.start()
+
+if 0.5: print("true")

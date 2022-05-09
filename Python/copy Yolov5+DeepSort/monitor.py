@@ -116,8 +116,28 @@ def REF_XYZ(REF, MAT):
             
             REF2[i].append((int(XY[0]), int(XY[1])))
     print("> Loaded the reference line to GLOBAL")
-    print("REF:", REF); print("REF2:", REF2)
+    print("\tREF:", REF); print("\tREF2:", REF2)
     return REF2
+
+def recorded(records, id, path, LPfilter):
+    # first record
+    if len(records)==0:
+        records.append([id, [path]])
+        return records, [path], path
+    # append record
+    for record in records:
+        if record[0]==id:
+            # apply low-pass filter
+            if LPfilter:
+                path = (
+                    int(LPfilter*path[0] + (1-LPfilter)*record[1][0][0]), 
+                    int(LPfilter*path[1] + (1-LPfilter)*record[1][0][1]))
+
+            record[1].insert(0, path)
+            return records, record[1], path
+    # add new record
+    records.append([id, [path]])
+    return records, [path], path
 
 def plot1(image, xywh, id, REF, size=5, thickness=2):
 
@@ -151,12 +171,16 @@ def plot1(image, xywh, id, REF, size=5, thickness=2):
 
     return image
 
-def plot2(image, xywh, id, REF, MAT, size=5, thickness=2):
+def plot2(image, xywh, id, REF, MAT, records, LPfilter=0.1, size=5, thickness=2, show_rec=50):
 
     center = (int(xywh[0]) + int(xywh[2])/2, int(xywh[1]) + int(xywh[3])/2)
 
     # Transformation (Perspective transform -> Camera-to-Global frame transform)
     XY = transform(center, MAT)
+
+    # Recording the path
+    records, paths, XY = recorded(records, id, XY, LPfilter)
+    paths = paths[0:show_rec+1] if len(paths)>show_rec else paths
 
     # represents the top left corner of rectangle
     start_point = (int(XY[0]-size), int(XY[1]-size))
@@ -165,24 +189,29 @@ def plot2(image, xywh, id, REF, MAT, size=5, thickness=2):
 
     # Blue color in BGR
     color = (255, 0, 0)
-    
-    # Using cv2.rectangle() method
+
+    # Using cv2.polylines() method
+    # Reference
     for ref in REF:
         pts = np.array(ref)
         pts = pts.reshape((-1, 1, 2))
-        # print(pts)
         image = cv2.polylines(image, [pts], True, (255,255,255), 1)
+    # Paths
+    path = np.array(paths)
+    path = path.reshape((-1, 1, 2))
+    image = cv2.polylines(image, [path], False, color, 1)
 
+    # Using cv2.rectangle() method
     image = cv2.rectangle(image, start_point, end_point, color, thickness)
 
     # Using cv2.putText() method
     image = cv2.putText(
         image, 'ID'+id, (end_point[0]+5, end_point[1]), cv2.FONT_HERSHEY_SIMPLEX, .4, color, thickness-1, cv2.LINE_AA)
     image = cv2.putText(
-        image, f"{XY[0]:.1f},{XY[1]:.1f}",
+        image, f"{XY[0]},{XY[1]}",
         (end_point[0]+5, end_point[1]+15), cv2.FONT_HERSHEY_SIMPLEX, .4, color, thickness-1, cv2.LINE_AA)
-
-    return image
+    
+    return image, records
 
 def write_video(file_path, frames, fps=30):
     """
@@ -210,21 +239,23 @@ if __name__ == '__main__':
     FILE = 'test_trafficb480_track'
     BG = 'background2.jpg'
 
+    _AUTO_CLOSE = True
     _SAVE_VDO = True
     _DEBUG = False
+    _SHOW_RECORD = False
 
     with open(PATH+FILE+".txt", "r") as f:
         data = f.readlines()
-        # data[0] = frame index
-        # data[1] = object index
-        # data[2] = x-coordinate
-        # data[3] = y-coordinate
-        # data[4] = object width
-        # data[5] = object height
-        # data[6] 
-        # data[7] 
-        # data[8] 
-        # data[9] 
+        # data[i][0] = frame index
+        # data[i][1] = object index
+        # data[i][2] = x-coordinate
+        # data[i][3] = y-coordinate
+        # data[i][4] = object width
+        # data[i][5] = object height
+        # data[i][6] 
+        # data[i][7] 
+        # data[i][8] 
+        # data[i][9] 
     cap = cv2.VideoCapture(PATH+FILE+'.mp4')
     bg = cv2.imread(PATH+BG)
 
@@ -236,7 +267,7 @@ if __name__ == '__main__':
     MAT = create_transformation(REF[0])
     REF2 = REF_XYZ(REF, MAT)
 
-    frames = []; frame_idx = 0; monitors = []; dt = time.time()
+    frames = []; frame_idx = 0; monitors = []; records = []; dt = time.time()
     print("> Start the process")
     while cap.isOpened():
         ret, frame = cap.read()
@@ -258,12 +289,13 @@ if __name__ == '__main__':
                         REF=REF
                         )
                     # Plotting monitor
-                    monitor = plot2(
+                    monitor, records = plot2(
                         monitor, 
                         xywh=info[2:6],
                         id=info[1],
                         REF=REF2,
-                        MAT=MAT
+                        MAT=MAT,
+                        records=records
                         )
 
             # cv2.imshow('YOLO DeepSort tracking', frame)
@@ -271,13 +303,19 @@ if __name__ == '__main__':
             frames.append(frame)
             monitors.append(monitor)
 
-        if cv2.waitKey(10) & 0xFF == ord('q'): 
+        if (cv2.waitKey(10) & 0xFF == ord('q')) or (_AUTO_CLOSE and frame_idx==int(data[-1].split()[0])): 
             print("> Finish the process")
             break
         # (For 1-loop only debugging)
         if _DEBUG:
             if frame_idx==3: break
-        
+    
+    # Show all recorded path
+    if _SHOW_RECORD:
+        print("> Recorded paths")
+        for record in records:
+            print(f"\tID{record[0]}: {record[1] if len(record[1])<=5 else record[1][0:6]}{'' if len(record[1])<=5 else ' . . .'}")
+
     # Save monitering result to VDO
     if _SAVE_VDO:
         write_video(PATH+FILE+'_plot.mp4', frames)

@@ -1,0 +1,13 @@
+{
+  "name": "jsserve",
+  "version": "1.0.0",
+  "description": "First: openssl req -nodes -new -x509 -keyout server.key -out server.cert",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

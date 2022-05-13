@@ -2,6 +2,9 @@ import cv2
 import time
 import numpy as np
 import math as m
+import requests as req
+
+URL = "http://127.0.0.1:3000/result"
 
 def deg2rad(deg):
     return m.tan(deg/180.0*m.pi)
@@ -139,39 +142,6 @@ def recorded(records, id, path, LPfilter):
     records.append([id, [path]])
     return records, [path], path
 
-def plot1(image, xywh, id, REF, size=5, thickness=2):
-
-    center = (int(xywh[0]) + int(xywh[2])/2, int(xywh[1]) + int(xywh[3])/2)
-
-    # Transformation
-    xy = transform(center, MAT)
-
-    # represents the top left corner of rectangle
-    start_point = (int(center[0]-size), int(center[1]-size))
-    # represents the bottom right corner of rectangle
-    end_point = (int(center[0]+size), int(center[1]+size))
-
-    # Blue color in BGR
-    # color = (255, 0, 0)
-    color = (255, 255, 255)
-    
-    # Using cv2.rectangle() method
-    for ref in REF:
-        pts = np.array(ref)
-        pts = pts.reshape((-1, 1, 2))
-        image = cv2.polylines(image, [pts], True, color, 1)
-
-    image = cv2.rectangle(image, start_point, end_point, color, thickness)
-
-    # Using cv2.putText() method
-    # image = cv2.putText(
-    #     image, 'ID'+id, (end_point[0]+5, end_point[1]), cv2.FONT_HERSHEY_SIMPLEX, .4, color, thickness-1, cv2.LINE_AA)
-    image = cv2.putText(
-        image, f"{xy[0]:.1f},{xy[1]:.1f}",
-        (end_point[0]+5, end_point[1]+15), cv2.FONT_HERSHEY_SIMPLEX, .4, color, thickness-1, cv2.LINE_AA)
-
-    return image
-
 def plot2(image, xywh, id, REF, MAT, records, LPfilter=0.1, size=5, thickness=2, show_rec=50):
 
     center = (int(xywh[0]) + int(xywh[2])/2, int(xywh[1]) + int(xywh[3])/2)
@@ -242,12 +212,12 @@ if __name__ == '__main__':
     BG = 'background3.png'
 
     _AUTO_CLOSE = True
-    _SAVE_VDO = True
+    _SAVE_VDO = False
     _DEBUG = False
     _SHOW_RECORD = False
 
-    with open(PATH+FILE+".txt", "r") as f:
-        data = f.readlines()
+    # with open(PATH+FILE+".txt", "r") as f:
+    #     data = f.readlines()
         # data[i][0] = frame index
         # data[i][1] = object index
         # data[i][2] = x-coordinate
@@ -258,7 +228,7 @@ if __name__ == '__main__':
         # data[i][7] 
         # data[i][8] 
         # data[i][9] 
-    cap = cv2.VideoCapture(PATH+FILE+'.mp4')
+    # cap = cv2.VideoCapture(PATH+FILE+'.mp4')
     bg = cv2.imread(PATH+BG)
 
     REF = ((
@@ -270,26 +240,23 @@ if __name__ == '__main__':
     REF2 = REF_XYZ(REF, MAT)
 
     frames = []; frame_idx = 0; monitors = []; records = []; dt = time.time()
-    print("> Start the process")
-    while cap.isOpened():
-        ret, frame = cap.read()
-        monitor = bg.copy()
-        if ret == True:
-            frame_idx+=1
-            # print(len(frame), len(frame[0])) # frame size
+    print("> Running monitor.py")
+    while True:
 
+        # Collecting data from server
+        response = req.get(URL)
+        print(response)
+
+        monitor = bg.copy()
+        frame_idx+=1
+        # print(len(frame), len(frame[0])) # frame size
+
+        if new_data:
             for data_i in data:
                 info = data_i.split()
                 # print(info)
                 if int(info[0]) == frame_idx:
 
-                    # Plotting coordinate
-                    frame = plot1(
-                        frame, 
-                        xywh=info[2:6],
-                        id=info[1],
-                        REF=REF
-                        )
                     # Plotting monitor
                     monitor, records = plot2(
                         monitor, 
@@ -301,11 +268,11 @@ if __name__ == '__main__':
                         )
 
             # cv2.imshow('YOLO DeepSort tracking', frame)
-            cv2.imshow('YOLO DeepSort monitoring', monitor)
-            frames.append(frame)
             monitors.append(monitor)
 
-        if (cv2.waitKey(10) & 0xFF == ord('q')) or (_AUTO_CLOSE and frame_idx==int(data[-1].split()[0])): 
+        cv2.imshow('YOLO DeepSort monitoring', monitor)
+
+        if (cv2.waitKey(10) & 0xFF == ord('q')): 
             print("> Finish the process")
             break
         # (For 1-loop only debugging)

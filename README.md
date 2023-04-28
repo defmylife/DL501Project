@@ -1,3 +1,4 @@
+![](https://github.com/defmylife/DL501Project/blob/main/DEMO.gif)
 
 # **YOLOv5 DeepSort Tracking Vehicle Network for Traffic Control**
 
